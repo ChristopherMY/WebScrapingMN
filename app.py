@@ -6,6 +6,7 @@ import tkinter as tk
 import src.progressbar as pg
 import src.whatsapp
 import src.campaña
+import src.messenger
 
 from pandas.core.reshape.concat import concat
 from PIL import Image, ImageTk
@@ -118,6 +119,9 @@ class Application(tk.Frame):
         return True
 
     def verCampaña(self):
+        messenger = src.messenger.Messenger(200,"https://www.facebook.com/IGMNFullStorePe/inbox")
+        messenger.get_selenium_res("https://www.facebook.com")
+
         # Abrir Excel
         try:
             os.startfile(
@@ -136,7 +140,7 @@ class Application(tk.Frame):
             self.canvas, 0, 0, 200, 200, 20)
 
         self.start()
-        whatsapp = src.whatsapp.WhatsApp(800)
+        whatsapp = src.whatsapp.WhatsApp(400)
         user_names = whatsapp.unread_usernames(scrolls=727)
 
         # Create row Header excel
@@ -145,16 +149,18 @@ class Application(tk.Frame):
         row = 0
         for name in user_names:
             row = row + 1
-
+           
             messages = whatsapp.get_last_message_for(name)
+            print(messages)
 
             if len(messages) != 0:
                 split = messages.split()
                 if len(split) == 2:
                     df.at[name, 'Celular'] = split[1]
+                elif len(split) == 3:
+                    df.at[name, 'Celular'] = split[1] + "" + split[2]
                 else:
-                    df.at[name, 'Celular'] = split[1] + \
-                        "" + split[2] + "" + split[3]
+                    df.at[name, 'Celular'] = split[1] + "" + split[2] + "" + split[3]
 
                 df.at[name, 'Codigo_Pais'] = split[0]
 
@@ -241,8 +247,8 @@ class Application(tk.Frame):
             self.canvas, 0, 0, 200, 200, 20)
 
         campaña = src.campaña.Campaña(400)
-        if campaña.send_campaña():
-            self.step(40)
+        campaña.send_campaña()
+            #self.step(40)
 
         return True
 

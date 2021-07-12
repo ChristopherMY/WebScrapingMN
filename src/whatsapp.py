@@ -1,3 +1,5 @@
+import time
+from tkinter import messagebox
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -10,28 +12,31 @@ from bs4 import BeautifulSoup
 
 class WhatsAppElements:
     search = (By.CSS_SELECTOR,
-              "#side > div.SgIJV > div > label > div > div._2_1wd.copyable-text.selectable-text")
-    aside = (By.CSS_SELECTOR, "#main > header > div._2uaUb")
+              "#side > div.uwk68 > div > label > div > div._13NKt.copyable-text.selectable-text")
+    aside = (By.CSS_SELECTOR, "#main > header > div._24-Ff > div > div > span")
 
 
 class WhatsApp:
-    browser = None
+    browser =  None
     size = 0
     timeout = 15  # The timeout is set for about ten seconds
-
     def __init__(self, wait, screenshot=None, session=None):
         if self.browser is None:
-            self.browser = webdriver.Chrome(
-            executable_path="chromedriver.exe")  # change path
-                # to open the WhatsApp web
-            self.browser.get("https://web.whatsapp.com/")
-
-                # you need to scan the QR code in here (to eliminate this step, I will publish another blog
             try:
+                self.browser = webdriver.Chrome(executable_path="chromedriver.exe")# change path
+                self.browser.get("https://web.whatsapp.com/") #to open the WhatsApp web
+       
+                # you need to scan the QR code in here (to eliminate this step, I will publish another blog
+            
                 WebDriverWait(self.browser, wait).until( 
-                EC.presence_of_element_located(WhatsAppElements.content)) #wait till search element appears
+                EC.presence_of_element_located(WhatsAppElements.search)) #wait till search element appears
             except Exception as e:
+                WebDriverWait(self.browser, 60)
+                messagebox.showwarning(message="Ups, no se pudo tener conexión con WhatsApp", title="Iniciar WhatsApp")
                 print(e)
+        else:
+            WebDriverWait(self.browser, 60)
+            messagebox.showwarning(message="Reconectando...", title="Iniciar WhatsApp")
 
     def goto_main(self):
         try:
@@ -42,7 +47,7 @@ class WhatsApp:
             print(e)
             WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
                 WhatsAppElements.search))
- 
+
     def unread_usernames(self, scrolls=100):
         self.goto_main()
         initial = 10
@@ -51,13 +56,17 @@ class WhatsApp:
         e = self.browser.find_element_by_xpath("//*[@id='pane-side']")
         content = e.size
         size = content['height'] + content['width']
-        for i in range(0, size):
-            self.browser.execute_script("document.getElementById('pane-side').scrollTop={}".format(initial))
+        #38432
+        for i in range(0, 38412):
+            self.browser.execute_script(
+                "document.getElementById('pane-side').scrollTop={}".format(initial))
             soup = BeautifulSoup(self.browser.page_source, "html.parser")
-            for i in soup.find_all("div", class_="_2Z4DV"): # replace for _1V5O7
-                if i.find("div", class_="_2pkLM"):
-                    username = i.find("div", class_="_3Dr46").text
-                    usernames.append(username)
+            for i in soup.find_all("div", class_="_3OvU8"):  # replace for _1V5O7
+                if i.find("div", class_="_3vPI2"):
+                    if i.find("div", class_="zoWT4"):
+                        if i.find("span", class_="_3q9s6"):
+                            username = i.find("span", class_="_ccCW").text
+                            usernames.append(username)
             initial += 10
         # Remove duplicates
         usernames = list(set(usernames))
@@ -67,52 +76,55 @@ class WhatsApp:
         messages = list()
         search = self.browser.find_element(*WhatsAppElements.search)
         search.send_keys(name+Keys.ENTER)
-            
+
         # time.sleep(1)
-        
+
         element = self.browser.find_element(*WhatsAppElements.aside)
-        element.click()                                           
-        
+        element.click()
+
         ActionChains(self.browser).move_to_element(element).perform()
-        # time.sleep(1)      
-        
+        #
+        # time.sleep(1)
+
         row = 0
         message = ""
         phone = ""
         phone2 = ""
-        
+
         soup = BeautifulSoup(self.browser.page_source, "html.parser")
-        for i in soup.find_all("div", class_="_2kOFZ"):      
-            
+        for i in soup.find_all("div", class_="_36FbL"):
+
             row = row + 1
-            
-            if i.select("#app > div._3h3LX._34ybp.app-wrapper-web.font-fix.os-win > div._3QfZd.three > div.Akuo4 > div._1Flk2._3xysY > span > div._1sMV6 > span > div.OMoBQ._2W4mF._3wXwX.copyable-area > div > section > div:nth-child(4) > div:nth-child(3) > div"):
-                phone = i.find("div", class_='_10szZ')
+
+            if i.select("#app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._3bvta > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(4) > div:nth-child(3) > div"):
+                phone = i.find("div", class_='_1ER5I')
                 # message = "Ingreso 1° IF : {}".format(row)
-                
-            elif i.select("#app > div._3h3LX._34ybp.app-wrapper-web.font-fix.os-win > div._3QfZd.three > div.Akuo4 > div._1Flk2._3xysY > span > div._1sMV6 > span > div.OMoBQ._2W4mF._3wXwX.copyable-area > div > section > div:nth-child(7) > div:nth-child(3) > div"):
-                phone = i.find("div", class_='_10szZ')
+
+            elif i.select("#app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._3bvta > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(6) > div:nth-child(3) > div"):
+                phone = i.find("div", class_='_1ER5I')
                 # message = "Ingreso 1° ELSEIF : {}".format(row)
-            
-            elif i.select("#app > div._3h3LX._34ybp.app-wrapper-web.font-fix.os-win > div._3QfZd.three > div.Akuo4 > div._1Flk2._3xysY > span > div._1sMV6 > span > div.OMoBQ._2W4mF._3wXwX.copyable-area > div >  section > div:nth-child(6) > div:nth-child(3) > div"):
-                phone = i.find("div", class_='_10szZ')
-                # message = "Ingreso 1° ELSEIF : {}".format(row) 
+
+            elif i.select("#app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._3bvta > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(5) > div:nth-child(3) > div"):
+                phone = i.find("div", class_='_1ER5I')
+                # message = "Ingreso 1° ELSEIF : {}".format(row)
             # else:
                 # message = "No Ingreso 1° IF : {}".format(row)
-                
+            elif i.select("#app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._3bvta > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(7) > div:nth-child(3) > div"):
+                phone = i.find("div", class_='_1ER5I')
+
             if phone:
                 phone2 = phone.find("span", class_='selectable-text')
                 # message = "Ingreso 2° IF : {}".format(row)
             # else:
                 # message = "No Ingreso 2° IF : {}".format(row)
-                
+
             if phone2:
                 # message = "Ingreso 3° IF : {}".format(row)
-                message = phone2.find("span", class_='_1Kn3o').text
+                message = phone2.find("span", class_='_3NUK1').text
             # else:
-                # message = "No Ingreso 3° IF : {}".format(row)                        
-            
+                # message = "No Ingreso 3° IF : {}".format(row)
+
         # messages = list(filter(None, messages))
         # messages = list(filter(None, messages))
-       
+
         return message
