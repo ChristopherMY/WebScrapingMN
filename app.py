@@ -119,8 +119,8 @@ class Application(tk.Frame):
         return True
 
     def verCampaña(self):
-        messenger = src.messenger.Messenger(200,"https://www.facebook.com/IGMNFullStorePe/inbox")
-        messenger.get_selenium_res("https://www.facebook.com")
+    ##  messenger = src.messenger.Messenger(200,"https://www.facebook.com/IGMNFullStorePe/inbox")
+    ##    messenger.get_selenium_res("https://www.facebook.com")
 
         # Abrir Excel
         try:

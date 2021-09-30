@@ -40,7 +40,6 @@ class Messenger:
     logger = logging.getLogger('django.project.requests')
     selenium_retries = 0
 
-
     def __init__(self, wait, url):
         self.url = url
 

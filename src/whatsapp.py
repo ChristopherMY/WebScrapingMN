@@ -25,9 +25,9 @@ class WhatsApp:
             try:
                 self.browser = webdriver.Chrome(executable_path="chromedriver.exe")# change path
                 self.browser.get("https://web.whatsapp.com/") #to open the WhatsApp web
-       
+
                 # you need to scan the QR code in here (to eliminate this step, I will publish another blog
-            
+
                 WebDriverWait(self.browser, wait).until( 
                 EC.presence_of_element_located(WhatsAppElements.search)) #wait till search element appears
             except Exception as e:
@@ -42,7 +42,7 @@ class WhatsApp:
         try:
             self.browser.refresh()
             Alert(self.browser).accept()
-           
+
         except Exception as e:
             print(e)
             WebDriverWait(self.browser, self.timeout).until(EC.presence_of_element_located(
@@ -57,7 +57,10 @@ class WhatsApp:
         content = e.size
         size = content['height'] + content['width']
         #38432
-        for i in range(0, 38412):
+        #48432
+        #28415
+        #18415
+        for i in range(0, 2600):
             self.browser.execute_script(
                 "document.getElementById('pane-side').scrollTop={}".format(initial))
             soup = BeautifulSoup(self.browser.page_source, "html.parser")
@@ -95,36 +98,55 @@ class WhatsApp:
         for i in soup.find_all("div", class_="_36FbL"):
 
             row = row + 1
-
-            if i.select("#app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._3bvta > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(4) > div:nth-child(3) > div"):
+            # Persona Natural
+            if i.select("#app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(4) > div:nth-child(3) > div > div"):
                 phone = i.find("div", class_='_1ER5I')
                 # message = "Ingreso 1° IF : {}".format(row)
+            #app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(6) > div:nth-child(3) > div > div
+            #app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(6) > div:nth-child(3) > div > div
+            #app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(4) > div:nth-child(3) > div
+            #app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(4) > div:nth-child(3) > div > div
+            #app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(7) > div:nth-child(3) > div
+            #app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(4) > div:nth-child(3) > div
+            #app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(5) > div:nth-child(3) > div
+            #app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(4) > div:nth-child(3) > div
+            #app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(7) > div:nth-child(3) > div
+            #app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(7) > div:nth-child(3) > div
+            #app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(6) > div:nth-child(3) > div
+            #app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(4) > div:nth-child(3) > div
+            #app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(6) > div:nth-child(3) > div
 
-            elif i.select("#app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._3bvta > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(6) > div:nth-child(3) > div"):
-                phone = i.find("div", class_='_1ER5I')
-                # message = "Ingreso 1° ELSEIF : {}".format(row)
+            #-app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(6) > div:nth-child(3) > div > div
+            #app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(4) > div:nth-child(3) > div
+            #app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(4) > div:nth-child(3) > div > div
+            #app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(7) > div:nth-child(3) > div
+            #app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(5) > div:nth-child(3) > div
+            #app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(6) > div:nth-child(3) > div
 
-            elif i.select("#app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._3bvta > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(5) > div:nth-child(3) > div"):
+            elif i.select("#app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(6) > div:nth-child(3) > div > div"):
                 phone = i.find("div", class_='_1ER5I')
-                # message = "Ingreso 1° ELSEIF : {}".format(row)
-            # else:
-                # message = "No Ingreso 1° IF : {}".format(row)
-            elif i.select("#app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._3bvta > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(7) > div:nth-child(3) > div"):
+
+            elif i.select("#app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(4) > div:nth-child(3) > div"):
+                phone = i.find("div", class_='_1ER5I')
+
+            elif i.select("#app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(4) > div:nth-child(3) > div > div"):
+                phone = i.find("div", class_='_1ER5I')
+
+            elif i.select("#app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(7) > div:nth-child(3) > div"):
+                phone = i.find("div", class_='_1ER5I')
+
+            elif i.select("#app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(5) > div:nth-child(3) > div"):
+                phone = i.find("div", class_='_1ER5I')
+
+            elif i.select("#app > div._1ADa8._3Nsgw.app-wrapper-web.font-fix.os-win > div._1XkO3.three > div._3ArsE > div.ldL67._1bLj8 > span > div._1N4rE > span > div.nBIOd._2T-Z0.tm2tP.copyable-area > div > section > div:nth-child(6) > div:nth-child(3) > div"):
                 phone = i.find("div", class_='_1ER5I')
 
             if phone:
                 phone2 = phone.find("span", class_='selectable-text')
-                # message = "Ingreso 2° IF : {}".format(row)
-            # else:
-                # message = "No Ingreso 2° IF : {}".format(row)
 
             if phone2:
-                # message = "Ingreso 3° IF : {}".format(row)
                 message = phone2.find("span", class_='_3NUK1').text
-            # else:
-                # message = "No Ingreso 3° IF : {}".format(row)
 
-        # messages = list(filter(None, messages))
         # messages = list(filter(None, messages))
 
         return message
