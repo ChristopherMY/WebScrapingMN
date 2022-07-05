@@ -44,7 +44,7 @@ class Messenger:
         self.url = url
 
     def get_selenium_res(self, class_name):
-            
+
         try:
             software_names = [SoftwareName.CHROME.value]
             operating_systems = [OperatingSystem.WINDOWS.value,

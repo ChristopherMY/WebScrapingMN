@@ -7,6 +7,7 @@ import src.progressbar as pg
 import src.whatsapp
 import src.campaña
 import src.messenger
+import src.almacen
 
 from pandas.core.reshape.concat import concat
 from PIL import Image, ImageTk
@@ -61,6 +62,10 @@ class Application(tk.Frame):
             self.canvas, 0, 0, 200, 200, 20)
 
         # Crear Button Personalizado
+        button_alm = TkinterCustomButton(
+            text="Obtener Informacion", corner_radius=10, text_color="#F68302", width=180, height=40, hover_color="#eac3b7",
+            bg_color="#F68302",  fg_color="white", command=self.infoAlmacen)
+        button_alm.place(relx=0.25, rely=0.65, anchor=tk.CENTER)
 
         button_2 = TkinterCustomButton(
             text="Ver Numeros", corner_radius=10, text_color="#F68302", width=140, height=40, hover_color="#eac3b7",
@@ -87,6 +92,11 @@ class Application(tk.Frame):
             bg_color="#F68302",  fg_color="white", command=self.enviarCampaña)
         button_3.place(relx=0.7, rely=0.85, anchor=tk.CENTER)
 
+
+    def infoAlmacen(self):
+         campaña = src.almacen.Almacen(560)
+         campaña.send_campaña()
+
     def start(self):
         self.progressbar.start()
 
@@ -95,7 +105,7 @@ class Application(tk.Frame):
 
     def step(self, aceleration):
         self.progressbar.step(aceleration)
-
+    
     # Lanzamos mensaje
     def verNumeros(self):
         # Abrir Excel
@@ -149,9 +159,9 @@ class Application(tk.Frame):
         row = 0
         for name in user_names:
             row = row + 1
-           
+
             messages = whatsapp.get_last_message_for(name)
-            print(messages)
+            #print(messages)
 
             if len(messages) != 0:
                 split = messages.split()
@@ -159,8 +169,12 @@ class Application(tk.Frame):
                     df.at[name, 'Celular'] = split[1]
                 elif len(split) == 3:
                     df.at[name, 'Celular'] = split[1] + "" + split[2]
-                else:
+
+                elif len(split) == 4:
                     df.at[name, 'Celular'] = split[1] + "" + split[2] + "" + split[3]
+
+                else:
+                    df.at[name, 'Celular'] = split[0]
 
                 df.at[name, 'Codigo_Pais'] = split[0]
 
@@ -246,7 +260,7 @@ class Application(tk.Frame):
         self.progressbar = pg.CircularProgressbar(
             self.canvas, 0, 0, 200, 200, 20)
 
-        campaña = src.campaña.Campaña(400)
+        campaña = src.campaña.Campaña(560)
         campaña.send_campaña()
             #self.step(40)
 
