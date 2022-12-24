@@ -84,7 +84,7 @@ class Campaña:
         print('Importado', contactos.shape[0], 'numeros de celular')
 
         """""
-        x = contactos.shape[0]        
+        x = contactos.shape[0]
         contactos = contactos.drop_duplicates()
         y = contactos.shape[0]
         z = x - y
@@ -104,8 +104,8 @@ class Campaña:
         ruta_imagen = list(llaves.ruta_imagen)
         ruta_imagen = [x for x in ruta_imagen if str(x) != 'nan']
 
-        #mensaje_imagen = list(llaves.mensaje_imagen)
-        #mensaje_imagen = [x for x in mensaje_imagen if str(x) != 'nan']
+        # mensaje_imagen = list(llaves.mensaje_imagen)
+        # mensaje_imagen = [x for x in mensaje_imagen if str(x) != 'nan']
 
         ruta_video = list(llaves.ruta_video)
         ruta_video = [x for x in ruta_video if str(x) != 'nan']
@@ -123,7 +123,7 @@ class Campaña:
         count = 6
         df = pd.DataFrame(columns=['Celular', 'Estado'])
 
-        #message_image = "¡Hola! 🤩 Llegó el CyberWow a Mundo Negocio! Usa el cupón MUNDOWOW y ten S/.50 de descuento en nuestros productos. ¡Vive esta experiencia en Mundo Negocio!🙀 \n¡Tu mejor opción a un solo clic! 👉🏼 www.mundonegocio.com.pe/mundowow 👈🏼 \n🔸Compras seguras. \n🔸Envíos rápidos. \n🔸Mejores precios del mercado. \n🤯¿Necesitas ayuda con tu proceso de compra?😮"
+        # message_image = "¡Hola! 🤩 Llegó el CyberWow a Mundo Negocio! Usa el cupón MUNDOWOW y ten S/.50 de descuento en nuestros productos. ¡Vive esta experiencia en Mundo Negocio!🙀 \n¡Tu mejor opción a un solo clic! 👉🏼 www.mundonegocio.com.pe/mundowow 👈🏼 \n🔸Compras seguras. \n🔸Envíos rápidos. \n🔸Mejores precios del mercado. \n🤯¿Necesitas ayuda con tu proceso de compra?😮"
 
         cel = contactos['Celular']
         for i in cel:
@@ -141,46 +141,59 @@ class Campaña:
                 count = count + 5
                 time.sleep(65)
 
-            #search = self.browser.find_element(*WhatsAppElements.search)
+            # search = self.browser.find_element(*WhatsAppElements.search)
             # search.send_keys(i+Keys.ENTER)
 
             try:
                 text = 0
                 if ruta_imagen:
-                    for k in ruta_imagen:
-                        print('Enviando imagen')
-                        attach_button_xpath = '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/div'
-                        attach_button = WebDriverWait(self.browser, 20).until(
-                            lambda driver: driver.find_element_by_xpath(attach_button_xpath))
+                    attach_button_xpath = '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/div'
+                    attach_button = WebDriverWait(self.browser, 20).until(
+                        lambda driver: driver.find_element_by_xpath(attach_button_xpath))
 
-                        time.sleep(1)
-                        attach_button.click()
+                    time.sleep(1)
+                    attach_button.click()
 
-                        image_box_xpath = '//input[@accept="image/*,video/mp4,video/3gpp,video/quicktime"]'
-                        image_box = WebDriverWait(self.browser, 20).until(
-                            lambda driver: driver.find_element_by_xpath(image_box_xpath))
-                        image_box.send_keys(k)
+                    image_box_xpath = '//input[@accept="image/*,video/mp4,video/3gpp,video/quicktime"]'
+                    image_box = WebDriverWait(self.browser, 20).until(
+                        lambda driver: driver.find_element_by_xpath(image_box_xpath))
 
-                        # if llaves['mensaje_imagen'][text] != "nan":
+                    files = ''
+                    if(len(ruta_imagen) > 0):
+                        files = '\n'.join(ruta_imagen)
+                    else:
+                        files = ruta_imagen[0]
 
-                        #    input_box_image_xpath = '//*[@id="app"]/div[1]/div[1]/div[2]/div[2]/span/div[1]/span/div[1]/div/div[2]/div[1]/span/div/div[2]/div/div[3]/div[1]/div[2]'
-                        #    input_box_image = WebDriverWait(self.browser, 40).until(
-                        #        lambda driver: driver.find_element_by_xpath(input_box_image_xpath))
-                        #    ##input_box_image.send_keys(llaves['mensaje_imagen'][text])
-                        #    self.browser.execute_script(
-                        #        "arguments[0].innerHTML = '{}'".format(llaves['mensaje_imagen'][text]), input_box_image)
+                    image_box.send_keys(files)
 
-                        #    input_box_image.send_keys(".")
-                        #    input_box_image.send_keys(Keys.BACKSPACE)
+                    time.sleep(1)
+                    send_button = WebDriverWait(self.browser, 40).until(lambda driver: driver.find_element_by_xpath(
+                        '//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/div/div[2]/div[2]/div/div[1]/span'))
+                    send_button.click()
+                    time.sleep(1)
 
-                        time.sleep(1)
+                    # if llaves['mensaje_imagen'][text]:
+                    #     # Habilitar el campod e texto
+                    #     input_box_main_xpath = '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[1]/p'
+                    #     input_box_main = WebDriverWait(self.browser, 20).until(
+                    #         lambda driver: driver.find_element_by_xpath(input_box_main_xpath))
+                    #     input_box_main.send_keys("!")
 
-                        send_button = WebDriverWait(self.browser, 40).until(lambda driver: driver.find_element_by_xpath(
-                            '//*[@id="app"]/div[1]/div[1]/div[2]/div[2]/span/div[1]/span/div[1]/div/div[2]/div/div[2]/div[2]/div/div'))
-                        send_button.click()
+                    #     input_box_text_xpath = '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div/p/span'
+                    #     input_box_text = WebDriverWait(self.browser, 20).until(
+                    #         lambda driver: driver.find_element_by_xpath(input_box_text_xpath))
 
-                        time.sleep(1)
-                        text = text + 1
+                    #     self.browser.execute_script(
+                    #         "arguments[0].childNodes[0].nodeValue = '{}'".format(llaves['mensaje_imagen'][text]), input_box_text)
+                    #     input_box_text.send_keys('.')
+                    #     input_box_text.send_keys(Keys.BACKSPACE)
+
+                    #     send_button = WebDriverWait(self.browser, 20).until(lambda driver: driver.find_element_by_xpath(
+                    #         '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button'))
+                    #     send_button.click()
+
+                    #     text = text + 1
+                    #     time.sleep(1)
 
                     print('Imagen enviada')
                     df.at[a, 'Estado'] = 'Mensaje enviado satisfactoriamente'
@@ -193,7 +206,6 @@ class Campaña:
                         attach_button = WebDriverWait(self.browser, 20).until(
                             lambda driver: driver.find_element_by_xpath(attach_button_xpath))
 
-                        time.sleep(1)
                         attach_button.click()
 
                         image_box_xpath = '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/span/div[1]/div/ul/li[1]/button/input'
@@ -201,46 +213,56 @@ class Campaña:
                             lambda driver: driver.find_element_by_xpath(image_box_xpath))
                         image_box.send_keys(k)
 
-                        input_box_image_xpath = '//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/div/div[1]/div[3]/div/div[2]/div[1]/div[2]'
-                        input_box_image = WebDriverWait(self.browser, 20).until(
-                            lambda driver: driver.find_element_by_xpath(input_box_image_xpath))
-                        self.browser.execute_script(
-                            "arguments[0].innerHTML = '{}'".format(llaves['mensaje_video'][text]), input_box_image)
-                        input_box_image.send_keys(".")
-                        input_box_image.send_keys(Keys.BACKSPACE)
                         time.sleep(1)
+
+                        # input_box_image_xpath = '//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/div/div[1]/div[3]/div/div[2]/div[1]/div[2]'
+                        # input_box_image = WebDriverWait(self.browser, 20).until(
+                        #     lambda driver: driver.find_element_by_xpath(input_box_image_xpath))
+                        # self.browser.execute_script(
+                        #     "arguments[0].innerHTML = '{}'".format(llaves['mensaje_video'][text]), input_box_image)
+                        # input_box_image.send_keys(".")
+                        # input_box_image.send_keys(Keys.BACKSPACE)
+
+                        # time.sleep(1)
 
                         send_button = WebDriverWait(self.browser, 40).until(lambda driver: driver.find_element_by_xpath(
                             '//*[@id="app"]/div[1]/div[1]/div[2]/div[2]/span/div[1]/span/div[1]/div/div[2]/div/div[2]/div[2]/div/div'))
                         send_button.click()
+
                         time.sleep(1)
 
                         text = text + 1
 
                     print('Video enviado')
                     df.at[a, 'Estado'] = 'Mensaje enviado satisfactoriamente'
-                """
+
                 if mensaje:
                     for j in mensaje:
-                        print('Escribiendo mensaje: ', j)
-                        input_xpath = '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]'
-                        input_box = WebDriverWait(self.browser, 40).until(
-                            lambda driver: driver.find_element_by_xpath(input_xpath))
+                        # print('Escribiendo mensaje: ', j)
+                        # Habilitar el campod e texto
+                        input_box_main_xpath = '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div/p'
+                        input_box_main = WebDriverWait(self.browser, 20).until(
+                            lambda driver: driver.find_element_by_xpath(input_box_main_xpath))
+                        input_box_main.send_keys("!")
 
-                        time.sleep(1)
+                        input_box_text_xpath = '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div/p/span'
+                        input_box_text = WebDriverWait(self.browser, 20).until(
+                            lambda driver: driver.find_element_by_xpath(input_box_text_xpath))
 
-                        # input_box_image.send_keys(llaves['mensaje_imagen'][text])
                         self.browser.execute_script(
-                            "arguments[0].innerHTML = '{}'".format(j), input_box)
-                        input_box.send_keys(".")
-                        input_box.send_keys(Keys.BACKSPACE)
-                        input_box.send_keys(Keys.ENTER)
+                            "arguments[0].childNodes[0].nodeValue = '{}'".format(j), input_box_text)
+                        # input_box_text.send_keys('.')
+                        # input_box_text.send_keys(Keys.BACKSPACE)
+
+                        send_button = WebDriverWait(self.browser, 20).until(lambda driver: driver.find_element_by_xpath(
+                            '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button'))
+                        send_button.click()
 
                         time.sleep(1)
 
                         print('Mensaje enviado')
                         df.at[a, 'Estado'] = 'Mensaje enviado satisfactoriamente'
-                """
+
                 if ruta_documento:
                     for k in ruta_documento:
                         print('Enviando documento')

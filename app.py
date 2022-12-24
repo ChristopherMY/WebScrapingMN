@@ -92,10 +92,9 @@ class Application(tk.Frame):
             bg_color="#F68302",  fg_color="white", command=self.enviarCampaña)
         button_3.place(relx=0.7, rely=0.85, anchor=tk.CENTER)
 
-
     def infoAlmacen(self):
-         campaña = src.almacen.Almacen(560)
-         campaña.send_campaña()
+        campaña = src.almacen.Almacen(560)
+        campaña.send_campaña()
 
     def start(self):
         self.progressbar.start()
@@ -105,7 +104,7 @@ class Application(tk.Frame):
 
     def step(self, aceleration):
         self.progressbar.step(aceleration)
-    
+
     # Lanzamos mensaje
     def verNumeros(self):
         # Abrir Excel
@@ -129,8 +128,8 @@ class Application(tk.Frame):
         return True
 
     def verCampaña(self):
-    ##  messenger = src.messenger.Messenger(200,"https://www.facebook.com/IGMNFullStorePe/inbox")
-    ##    messenger.get_selenium_res("https://www.facebook.com")
+        ##  messenger = src.messenger.Messenger(200,"https://www.facebook.com/IGMNFullStorePe/inbox")
+        # messenger.get_selenium_res("https://www.facebook.com")
 
         # Abrir Excel
         try:
@@ -157,11 +156,15 @@ class Application(tk.Frame):
         df = pd.DataFrame(columns=['Celular', 'Codigo_Pais'])
 
         row = 0
+
+        print("Cantidad")
+        print(len(user_names))
+
         for name in user_names:
             row = row + 1
 
             messages = whatsapp.get_last_message_for(name)
-            #print(messages)
+            # print(messages)
 
             if len(messages) != 0:
                 split = messages.split()
@@ -171,7 +174,8 @@ class Application(tk.Frame):
                     df.at[name, 'Celular'] = split[1] + "" + split[2]
 
                 elif len(split) == 4:
-                    df.at[name, 'Celular'] = split[1] + "" + split[2] + "" + split[3]
+                    df.at[name, 'Celular'] = split[1] + \
+                        "" + split[2] + "" + split[3]
 
                 else:
                     df.at[name, 'Celular'] = split[0]
@@ -262,7 +266,7 @@ class Application(tk.Frame):
 
         campaña = src.campaña.Campaña(560)
         campaña.send_campaña()
-            #self.step(40)
+        # self.step(40)
 
         return True
 
@@ -273,6 +277,8 @@ class Application(tk.Frame):
             base_path = os.path.abspath(".")
 
         return os.path.join(base_path, relative_path)
+
+
 # Creamos nuestro titulo
 if __name__ == '__main__':
     app = Application()

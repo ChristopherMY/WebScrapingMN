@@ -1,3 +1,4 @@
+from math import nan
 import time
 from tkinter import messagebox
 from selenium import webdriver
@@ -80,7 +81,8 @@ class WhatsApp:
         # 18415
         # 2600
         # 2600
-
+        # 15600
+        # 1300 CM
         for i in range(0, 1300):
             self.browser.execute_script(
                 "document.getElementById('pane-side').scrollTop={}".format(initial))
@@ -93,7 +95,11 @@ class WhatsApp:
                         username = i.find(
                             "span", class_="ggj6brxn")
 
-                        usernames.append(username.text)
+                        if(i.find("span", class_="matched-text")):
+                            username = i.find("span", class_="matched-text")
+
+                        if(username):
+                            usernames.append(username.text)
 
             initial += 10
         # Remove duplicates
@@ -157,26 +163,37 @@ class WhatsApp:
             aux = dom.xpath(
                 '//*[@id="app"]/div/div/div[2]/div[3]/span/div/span/div/div/section/div[8]/div[3]/div/div/span/span')
 
+        elif(dom.xpath('//*[@id="app"]/div/div/div[2]/div[3]/span/div/span/div/div/section/div[6]/div[2]/div/div/span/span')):
+            aux = dom.xpath(
+                '//*[@id="app"]/div/div/div[2]/div[3]/span/div/span/div/div/section/div[6]/div[2]/div/div/span/span')
+
         if(aux):
             # print(name)
             # print(aux[0])
-            # print(aux[0].getText())
+            # print(aux[0].getText())`
             # print(aux[0].text)
             # print("")
 
             temp = aux[0].text
             print("temp")
             print(temp)
-            if(temp[0:3] == "+51"):
-                message = aux[0].text
-            else:
-                if(dom.xpath('//*[@id="app"]/div/div/div[2]/div[3]/span/div/span/div/div/section/div[1]/div[2]/h2/span')):
-                    message = dom.xpath(
-                        '//*[@id="app"]/div/div/div[2]/div[3]/span/div/span/div/div/section/div[1]/div[2]/h2/span')[0].text
+            if(temp):
+                if(temp[0:3] == "+51"):
+                    message = aux[0].text
+                else:
+                    if(dom.xpath('//*[@id="app"]/div/div/div[2]/div[3]/span/div/span/div/div/section/div[1]/div[2]/h2/span') is nan):
+                        aux2 = dom.xpath(
+                            '//*[@id="app"]/div/div/div[2]/div[3]/span/div/span/div/div/section/div[1]/div[2]/h2/span')
+                        if(aux2):
+                            message = aux2[0].text
+                        else:
+                            message = ""
 
+        print("message {}".format(message))
         return message
 
-        """
+
+"""
         for i in soup.find_all("div", class_="KPJpj"):
             print(name);
             row = row + 1
@@ -186,9 +203,9 @@ class WhatsApp:
                 print("1~")
                 phone = i.find("div", class_='qt60bha0')
                 i.find()
-
+`
             # elif i.select("#app > div > div > div._3ArsE > div.ldL67._1bLj8 > span > div > span > div > div > section > div:nth-child(7) > div.gx1rr48f.Wt3HP > div"):
-            elif i.select("#app > div > div > div._3ArsE > div.ldL67._1bLj8 > span > div > span > div > div > section > div:nth-child(6) > div.gx1rr48f.Wt3HP > div"):
+            elif i.select("#app > div > div > div._3ArsE > div.ldL67._1bLj8 > span > div > span > div > div > section` > div:nth-child(6) > div.gx1rr48f.Wt3HP > div"):
                 print("2~")
                 phone = i.find("div", class_='ggj6brxn')
 
